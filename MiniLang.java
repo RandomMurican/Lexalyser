@@ -43,7 +43,7 @@ public class MiniLang {
 	public int getKindCount() {return kinds.size();} // Just a simple count for processing purposes
 	
 	
-	public boolean parse(File input) throws FileNotFoundException {
+	public void parse(File input) throws FileNotFoundException {
 		Scanner scan = new Scanner(input);
 		lex.clear();
 		int line = 0;
@@ -77,15 +77,18 @@ public class MiniLang {
 			
 		}
 		scan.close();
-		return kill;
 	}
 	
 	public void print() { // Print all the lexemes we have on new lines
-		if(!kill)
+		if(!kill && lex.size() > 0) {
+			do {
+				System.out.println(position() + ", " + kind() + ", " + value() );
+			} while ( next() != null );
+		}  /*
 			for(int i = 0; i < lex.size(); i++) {
 				lex.get(i).print();
 				System.out.println("");
-			}
+			} */
 	}
 	
 	/*
@@ -121,5 +124,7 @@ public class MiniLang {
 		String temp = lex.get(currentLexeme).getPos();
 		return temp;
 	}
+	
+	public int getCurrentLexeme() {return currentLexeme;}
 	
 }
