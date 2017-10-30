@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 
 public class Driver {
 	public static void main(String[] args) {
+		boolean error = false;
 		MiniLang lang = new MiniLang(); //Declare a new language
 		
 		//	Add in all of the types of lexemes as
@@ -25,17 +26,19 @@ public class Driver {
 		lang.addKind("ID", "[a-zA-Z]([a-zA-Z]|[0-9]|(_))*", true);
 		lang.addKind("NUM", "[0-9]+", true);
 		
-		//Attempt to load in the file to be parsed through command line
+		//load in the file to be parsed through command line
 		try {
-			lang.parse(new File(args[0]));
-		} catch(FileNotFoundException e) {
-			System.out.println("Error reading file.");
+			error = lang.parse(new File("test.txt"));
+		} catch (FileNotFoundException e) {
+			System.out.println("File not found");
+			error = true;
 		}
 		
 		// print out the lexemes
-		while ( lang.kind() != null ) {
-			System.out.println(lang.position() + ", " + lang.kind() + ", " + lang.value() );
-			lang.next();
-		}
+		if(!error)
+			while ( lang.kind() != null ) {
+				System.out.println(lang.position() + ", " + lang.kind() + ", " + lang.value() );
+				lang.next();
+			}
 	}
 }

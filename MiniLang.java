@@ -43,7 +43,7 @@ public class MiniLang {
 	public int getKindCount() {return kinds.size();} // Just a simple count for processing purposes
 	
 	
-	public void parse(File input) throws FileNotFoundException {
+	public boolean parse(File input) throws FileNotFoundException {
 		Scanner scan = new Scanner(input);
 		lex.clear();
 		int line = 0;
@@ -77,6 +77,7 @@ public class MiniLang {
 			
 		}
 		scan.close();
+		return kill;
 	}
 	
 	public void print() { // Print all the lexemes we have on new lines
