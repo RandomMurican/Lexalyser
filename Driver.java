@@ -21,14 +21,14 @@ public class Driver {
 		lang.addKind("or", "or");
 		lang.addKind("and", "and");
 		lang.addKind("not", "not");
-		lang.addKind("openParentheses", "\\(\\B");
-		lang.addKind("closeParentheses", "\\)\\B");
+		lang.addKind("openParentheses", "\\(");
+		lang.addKind("closeParentheses", "\\)");
 		lang.addKind("ID", "[a-zA-Z]([a-zA-Z]|[0-9]|(_))*", true);
 		lang.addKind("NUM", "[0-9]+", true);
 		
 		//load in the file to be parsed through command line
 		try {
-			error = lang.parse(new File("test.txt"));
+			error = lang.parse(new File("Test1.txt"));
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
 			error = true;
