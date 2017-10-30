@@ -58,7 +58,7 @@ public class MiniLang {
 					i = str.length();
 					lexemeString = "";
 				}
-				if(i < str.length() && str.charAt(i) != ' ') {	// Looking for non-blanks
+				if(i < str.length() && str.charAt(i) != ' ' && str.charAt(i) != '\t') {	// Looking for non-blanks
 					lexemeString += str.charAt(i);				// Add the current char to the string
 					if(lexemeString.length() == 1) {			// If it's the first to be added
 						start = i;									// Note the position for the lexeme
