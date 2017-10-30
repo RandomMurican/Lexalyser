@@ -1,4 +1,4 @@
-package com.randommurican.lexalyzer;
+package com.randommurican.Lexalyser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
