@@ -96,7 +96,7 @@ public class MiniLang {
 	
 	public Lexeme next() {
 		Lexeme temp;
-		if(currentLexeme < lex.size()) {
+		if(currentLexeme < lex.size() - 1) {
 			currentLexeme++;
 			temp = lex.get(currentLexeme);
 			return temp;

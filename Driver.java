@@ -35,10 +35,10 @@ public class Driver {
 		}
 		
 		// print out the lexemes
-		if(!error)
-			while ( lang.kind() != null ) {
-				System.out.println(lang.position() + ", " + lang.kind() + ", " + lang.value() );
-				lang.next();
-			}
+		if(!error) {
+			do {
+			System.out.println(lang.position() + ", " + lang.kind() + ", " + lang.value() );
+			} while ( lang.next() != null );
+		}
 	}
 }
