@@ -7,16 +7,31 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MiniLang {
-		private List<Lexeme> lex;
+		private List<Lexeme> lexemes;
 		private List<Patstern> kinds;
-		private boolean kill; // Lazy way of error stopping, bad ej
+		private boolean wasError;
 		private int currentLexeme;
 	
-	MiniLang(){
-		lex = new ArrayList<Lexeme>();		// List of any lexemes we find
+	MiniLang(File grammar) throws FileNotFoundException {
+		lexemes = new ArrayList<Lexeme>();
 		kinds = new ArrayList<Patstern>();	// List of patterns we look for
-		kill = false;
+		wasError = false;
 		currentLexeme = 0;
+		
+		Scanner grammarScanner = new Scanner(grammar);
+		while(grammarScanner.hasNextLine() && !wasError) {
+			String name = "", pattern = "", scannedLine = "";
+			boolean hasValue = false;
+			scannedLine = grammarScanner.nextLine();
+			if(scannedLine.startsWith("Pattern: ")) {
+				name = scannedLine.substring(9, scannedLine.length());
+				pattern = grammarScanner.nextLine().trim();
+				if(grammarScanner.nextLine().trim() == "true")
+					hasValue = true;
+			} else {wasError = true;}
+			kinds.add(new Patstern(name,pattern, hasValue));
+		}
+		grammarScanner.close();
 	}
 	
 	// Pass info to Patstern where it's reformatted for use
@@ -45,12 +60,12 @@ public class MiniLang {
 	
 	public void parse(File input) throws FileNotFoundException {
 		Scanner scan = new Scanner(input);
-		lex.clear();
+		lexemes.clear();
 		int line = 0;
 		int start = 0;
 		
 		
-		while(scan.hasNextLine() && !kill) {
+		while(scan.hasNextLine() && !wasError) {
 			String lexemeString = "";
 			String str = scan.nextLine();
 			for(int i = 0; i <= str.length(); i++) {
@@ -65,10 +80,10 @@ public class MiniLang {
 					}
 				}
 				else if(lexemeString != "") { 								// When we reach the end or a blank is found and we have a string
-					lex.add(new Lexeme(lexemeString, kinds, line, start));	// submit the string and repeat
+					lexemes.add(new Lexeme(lexemeString, kinds, line, start));	// submit the string and repeat
 					lexemeString = "";										// Reset the string
-					if(!lex.get(lex.size()-1).getSuccess()) {				// Check to see if it was NOT a lexeme
-						kill = true;
+					if(!lexemes.get(lexemes.size()-1).getSuccess()) {				// Check to see if it was NOT a lexeme
+						wasError = true;
 						i = str.length();										// Kill the process since there was an error
 					}
 				}
@@ -80,7 +95,7 @@ public class MiniLang {
 	}
 	
 	public void print() { // Print all the lexemes we have on new lines
-		if(!kill && lex.size() > 0) {
+		if(!wasError && lexemes.size() > 0) {
 			do {
 				System.out.println(position() + ", " + kind() + ", " + value() );
 			} while ( next() != null );
@@ -99,9 +114,9 @@ public class MiniLang {
 	
 	public Lexeme next() {
 		Lexeme temp;
-		if(currentLexeme < lex.size() - 1) {
+		if(currentLexeme < lexemes.size() - 1) {
 			currentLexeme++;
-			temp = lex.get(currentLexeme);
+			temp = lexemes.get(currentLexeme);
 			return temp;
 		} else
 			return null;
@@ -109,19 +124,19 @@ public class MiniLang {
 	}
 	
 	public String kind() {
-		String temp = lex.get(currentLexeme).getKind();
+		String temp = lexemes.get(currentLexeme).getKind();
 		return temp;
 	}
 	
 	public String value() {
-		if(lex.get(currentLexeme).hasValue()) {
-			String temp = lex.get(currentLexeme).getValue();
+		if(lexemes.get(currentLexeme).hasValue()) {
+			String temp = lexemes.get(currentLexeme).getValue();
 			return  temp;
 		} else {return null;}
 	}
 	
 	public String position() {
-		String temp = lex.get(currentLexeme).getPos();
+		String temp = lexemes.get(currentLexeme).getPos();
 		return temp;
 	}
 	
