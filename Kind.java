@@ -2,7 +2,7 @@ package com.randommurican.Lexalyser;
 
 import java.util.regex.Pattern;
 
-public class Patstern {
+public class Kind {
 	private String kind; // name of the lexeme kind
 	private Pattern pat; // RegEx pattern for the kind
 	private boolean bool;// whether the pattern gets a value or not
@@ -11,13 +11,13 @@ public class Patstern {
 	 * 	I kind of liked the sound of Patstern so I kept it...
 	 */
 	
-	Patstern(String kind, String inputPat) { // no value pass, assumed false
+	Kind(String kind, String inputPat) { // no value pass, assumed false
 		this.kind = kind;
 		this.pat = Pattern.compile(inputPat);
 		bool = false;
 	}
 	
-	Patstern(String kind, String inputPat, boolean bool) { // has value most likely, but we dont assume here
+	Kind(String kind, String inputPat, boolean bool) { // has value most likely, but we dont assume here
 		this.kind = kind;
 		this.pat = Pattern.compile(inputPat);
 		this.bool = bool;

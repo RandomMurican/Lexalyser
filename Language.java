@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Language {
 	private List<Lexeme> lexemes;
-	private List<Patstern> kinds; // List of patterns we look for
+	private List<Kind> kinds; // List of patterns we look for
 	private boolean wasError;
 	private int currentLexeme;
 
@@ -21,7 +21,7 @@ public class Language {
 	 */
 	Language(File grammar) throws FileNotFoundException {
 		lexemes = new ArrayList<Lexeme>();
-		kinds = new ArrayList<Patstern>();
+		kinds = new ArrayList<Kind>();
 		wasError = false;
 		currentLexeme = 0;
 
@@ -36,7 +36,7 @@ public class Language {
 				if(grammarScanner.nextLine().trim() == "true")
 					hasValue = true;
 			} else {wasError = true;}
-			kinds.add(new Patstern(name, pattern, hasValue));
+			kinds.add(new Kind(name, pattern, hasValue));
 		}
 		grammarScanner.close();
 	}
