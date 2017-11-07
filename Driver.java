@@ -19,7 +19,7 @@ public class Driver {
 			System.out.println("------Test4------ should fail line 4 and 8");
 			lang.parse(new File("Test4.txt"));
 			lang.print();
-			System.out.println("------Test5------- should fail line 8");
+			System.out.println("------Test5------- should fail line 2");
 			lang.parse(new File("Test5.txt"));
 			lang.print();
 			System.out.println("------Test6------- blank file");

@@ -8,12 +8,12 @@ public class Lexeme {
 	private int line;
 	private int pos;
 	private String value;
-	private boolean success;
+	private boolean matched;
 	
 	Lexeme(String lexemeString, List<Kind> patterns, int line, int pos) {
 		this.line = line; // line of the lexeme
 		this.pos = pos; // position of the lexeme
-		success = false; // Checking for errors
+		matched = false; // Checking for errors
 		boolean hasValue = false; // We assume false and change it when we know true
 		
 		/*
@@ -29,16 +29,16 @@ public class Lexeme {
 	        		hasValue = true;						// And mark down that it has a value
 	        	}
 	        	i = patterns.size();						// Then we skip the rest of the kinds
-	        	success = true;								// and lazily inform the program there were no errors
+	        	matched = true;								// and lazily inform the program there were no errors
 	        }
-		} if(!success)
+		} if(!matched)
 			System.out.println("Unexpected character at Line: " + line + " char: " + pos); // This is printed if we didn't find a match
 		
 		if(hasValue)
 			this.value = lexemeString;
 	}
 	
-	public boolean getSuccess() {return success;}
+	public boolean getSuccess() {return matched;}
 	public String getKind() {return kind;}
 	public boolean hasValue() {
 		if(value.equals(null))

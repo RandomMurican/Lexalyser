@@ -52,34 +52,53 @@ public class Language {
 	public void parse(File input) throws FileNotFoundException {
 		wasError = false;
 		Scanner inputScanner = new Scanner(input);	// Start reading the input
-		lexemes.clear();					// Delete any data from previous reads
-		int line = 1, start = 0;			// For error reporting
+		lexemes.clear();							// Delete any data from previous reads
+		int line = 1, start = 1;
 
 		while(inputScanner.hasNextLine() && !wasError) {
 			String lexemeString = "", str = inputScanner.nextLine();
 			for(int i = 0; i <= str.length(); i++) {
-				if(lexemeString.equals("//")) {		// If a comment is marked
+				//System.out.println(line + "|" + i + " lexStr: \"" + lexemeString + "\", " + wasError);
+				if(lexemeString.equals("/") && str.charAt(i) == '/') {
 					i = str.length();
 					lexemeString = "";
-				}
-				if(i < str.length() && str.charAt(i) != ' ' && str.charAt(i) != '\t') {	// If the next char isn't white space
-					lexemeString += str.charAt(i);
-					if(lexemeString.length() == 1) {									// and it was the first for the current lexeme
-						start = i;
+				} else if(i < str.length() && str.charAt(i) != ' ' && str.charAt(i) != '\t') {
+					if(	str.charAt(i) == '(' || str.charAt(i) == ')') {
+						if(lexemeString != "") {
+							if(!addLexeme(lexemeString, line, start))
+								i = str.length();
+							else {}
+							lexemeString = "";
+						} else{}
+						if(!wasError) {
+								if(!addLexeme(String.valueOf(str.charAt(i)), line, start))
+									i = str.length();
+								else {}
+								lexemeString = "";
+						}
+					} else {
+						lexemeString += str.charAt(i);
+						if(lexemeString.length() == 1) {
+							start = i;
+						}
 					}
-				}
-				else if(lexemeString != "") {	// We found white space or the end of a line and have a lexeme
-					lexemes.add(new Lexeme(lexemeString, kinds, line, start));
+				} else if(lexemeString != "") {
+					if(!addLexeme(lexemeString, line, start))
+						i = str.length();
+					else {}
 					lexemeString = "";
-					if(!lexemes.get(lexemes.size()-1).getSuccess()) {	// Check to see if it was NOT a lexeme
-						wasError = true;
-						i = str.length();								// Kill the process since there was an error
-					}
 				}
 			}
 			line++;
 		}
 		inputScanner.close();
+	}
+	
+	public boolean addLexeme(String lexeme, int line, int pos) {
+		lexemes.add(new Lexeme(lexeme, kinds, line, pos));
+		if(!lexemes.get(lexemes.size()-1).getSuccess())	// Checking to see if it was NOT a lexeme
+			wasError = true;
+		return !wasError;
 	}
 
 	/**
