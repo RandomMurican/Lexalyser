@@ -19,38 +19,41 @@ public class Language {
 	 * @param grammar
 	 * @throws FileNotFoundException
 	 */
-	Language(File grammar) throws FileNotFoundException {
+	Language() {
 		lexemes = new ArrayList<Lexeme>();
 		kinds = new ArrayList<Kind>();
 		wasError = false;
 		currentLexeme = 0;
 
-		Scanner grammarScanner = new Scanner(grammar);
-		while(grammarScanner.hasNextLine() && !wasError) {
-			String name = "", pattern = "", scannedLine = "";
-			boolean hasValue = false;
-			scannedLine = grammarScanner.nextLine();
-			if(scannedLine.startsWith("Pattern: ")) {
-				name = scannedLine.substring(9, scannedLine.length()).trim();
-				pattern = grammarScanner.nextLine().trim();
-				if(grammarScanner.nextLine().trim() == "true")
-					hasValue = true;
-			} else {wasError = true;}
-			kinds.add(new Kind(name, pattern, hasValue));
-		}
-		grammarScanner.close();
+		// Hardcoding the grammar for simplicity
+			kinds.add(new Kind("lessThan", "<", false));
+			kinds.add(new Kind("equal", "=", false));
+			kinds.add(new Kind("plus", "\\+", false));
+			kinds.add(new Kind("minus", "-", false));
+			kinds.add(new Kind("multiply", "\\*", false));
+			kinds.add(new Kind("divide", "/", false));
+			kinds.add(new Kind("or", "or", false));
+			kinds.add(new Kind("and", "and", false));
+			kinds.add(new Kind("not", "not", false));
+			kinds.add(new Kind("openParentheses", "\\(", false));
+			kinds.add(new Kind("closeParentheses", "\\)", false));
+			kinds.add(new Kind("true", "(true)", false));
+			kinds.add(new Kind("false", "(false)", false));
+			kinds.add(new Kind("ID", "[a-zA-Z]([a-zA-Z]|[0-9]|(_))*", true));
+			kinds.add(new Kind("NUM", "[0-9]+", true));
 	}
 
 	/**
-	 * Takes programmer input and turns it into a list of lexemes
+	 * Takes input and turns it into a list of lexemes
 	 * 
 	 * @param input
 	 * @throws FileNotFoundException
 	 */
 	public void parse(File input) throws FileNotFoundException {
+		wasError = false;
 		Scanner inputScanner = new Scanner(input);	// Start reading the input
 		lexemes.clear();					// Delete any data from previous reads
-		int line = 0, start = 0;			// For error reporting
+		int line = 1, start = 0;			// For error reporting
 
 		while(inputScanner.hasNextLine() && !wasError) {
 			String lexemeString = "", str = inputScanner.nextLine();
@@ -85,7 +88,10 @@ public class Language {
 	public void print() {
 		if(!wasError && lexemes.size() > 0) {
 			do {
-				System.out.println(position() + ", " + kind() + ", " + value() );
+				if(!(value() == null))
+					System.out.println(position() + ", " + kind() + ", " + value());
+				else
+					System.out.println(position() + ", " + kind());
 			} while ( next() != null );
 		}
 	}
@@ -111,10 +117,7 @@ public class Language {
 	}
 
 	public String value() {
-		if(lexemes.get(currentLexeme).hasValue()) {
-			String temp = lexemes.get(currentLexeme).getValue();
-			return  temp;
-		} else {return null;}
+		return lexemes.get(currentLexeme).getValue();
 	}
 
 	public String position() {
