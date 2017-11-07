@@ -1,5 +1,5 @@
-# Lexalyser
-A lexical analyser for CS311
+# Lexalyzer
+A lexical analyzer for CS311
 
 
 Grammar:
