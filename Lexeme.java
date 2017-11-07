@@ -1,4 +1,4 @@
-package com.randommurican.Lexalyser;
+package com.randommurican.Lexalyzer;
 
 import java.util.List;
 import java.util.regex.Matcher;
