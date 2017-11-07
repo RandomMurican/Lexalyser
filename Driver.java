@@ -5,9 +5,9 @@ import java.io.FileNotFoundException;
 
 public class Driver {
 	public static void main(String[] args) {
-		MiniLang lang;
+		Language lang;
 		try {
-			lang = new MiniLang(new File("Grammar.txt"));
+			lang = new Language(new File("Grammar.txt"));
 			lang.parse(new File("test.txt"));
 			lang.print();
 		} catch (FileNotFoundException e1) {
