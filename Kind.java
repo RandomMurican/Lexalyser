@@ -2,22 +2,28 @@ package com.randommurican.Lexalyser;
 
 import java.util.regex.Pattern;
 
+/**
+ * The Kind class is used to store the regEx patterns that
+ * make up the grammar we were given. The kind in this
+ * context is the name of the pattern for example ID, 
+ * DIGIT, or EXPRESSION. 
+ * 
+ *	@author ej Byrne
+ */
+
 public class Kind {
-	private String kind; // name of the lexeme kind
-	private Pattern pat; // RegEx pattern for the kind
-	private boolean bool;// whether the pattern gets a value or not
+	private String kind;	// name of the lexeme kind
+	private Pattern pat;	// RegEx pattern for the kind
+	private boolean bool;	// whether the pattern gets a value or not
 	
-	/*	Naming a class "Pattern" breaks the pattern class, go figure.
-	 * 	I kind of liked the sound of Patstern so I kept it...
-	 */
-	
-	Kind(String kind, String inputPat) { // no value pass, assumed false
+	// if no boolean value is passed we assume it's false
+	Kind(String kind, String inputPat) {
 		this.kind = kind;
 		this.pat = Pattern.compile(inputPat);
 		bool = false;
 	}
 	
-	Kind(String kind, String inputPat, boolean bool) { // has value most likely, but we dont assume here
+	Kind(String kind, String inputPat, boolean bool) {
 		this.kind = kind;
 		this.pat = Pattern.compile(inputPat);
 		this.bool = bool;
