@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class MiniLang {
+public class Language {
 	private List<Lexeme> lexemes;
 	private List<Patstern> kinds; // List of patterns we look for
 	private boolean wasError;
@@ -19,7 +19,7 @@ public class MiniLang {
 	 * @param grammar
 	 * @throws FileNotFoundException
 	 */
-	MiniLang(File grammar) throws FileNotFoundException {
+	Language(File grammar) throws FileNotFoundException {
 		lexemes = new ArrayList<Lexeme>();
 		kinds = new ArrayList<Patstern>();
 		wasError = false;
